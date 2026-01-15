@@ -1,0 +1,19 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: pauloo27/deployment-workflows/.github/workflows/build-and-push.yml@main
+    with:
+      image: ghcr.io/pauloo27/sample-java-api
+      tag: latest
+      platforms: linux/amd64,linux/arm64
+    permissions:
+      contents: read
+      packages: write
+
