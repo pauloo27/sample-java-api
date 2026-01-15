@@ -11,3 +11,14 @@ docker compose up -d --build
 ```
 
 Once the service is running, access http://localhost:8080/health.
+
+## Configuration
+
+You can change the port Spring Boot listens to by setting the `SERVER_PORT` environment variable in `docker-compose.yml`:
+
+```yaml
+environment:
+  - SERVER_PORT=9000
+```
+
+Make sure to also update the port mapping accordingly.
