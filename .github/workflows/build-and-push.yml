@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    uses: pauloo27/deployment-workflows/.github/workflows/build-and-push.yml@main
+    uses: pauloo27/deployment-workflows/.github/workflows/docker-build-push.yml@main
     with:
       image: ghcr.io/pauloo27/sample-java-api
       tag: latest
