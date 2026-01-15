@@ -12,7 +12,6 @@ jobs:
     with:
       image: ghcr.io/pauloo27/sample-java-api
       tag: latest
-      platforms: linux/amd64,linux/arm64
     permissions:
       contents: read
       packages: write
