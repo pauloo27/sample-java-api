@@ -1,0 +1,27 @@
+# HTTP port for the application
+http_port: 8080
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/pauloo27/sample-java-api
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: ClusterIP
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+livenessProbe:
+  httpGet:
+    path: /health
+readinessProbe:
+  httpGet:
+    path: /health

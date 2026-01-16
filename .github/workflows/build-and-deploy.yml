@@ -1,0 +1,31 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: pauloo27/deployment-workflows/.github/workflows/docker-build-push.yml@main
+    with:
+      image: ghcr.io/pauloo27/sample-java-api
+      tag: latest
+    permissions:
+      contents: read
+      packages: write
+
+  deploy:
+    needs: build
+    uses: pauloo27/deployment-workflows/.github/workflows/helm-install.yml@main
+    with:
+      release_name: sample-java-api
+      chart: oci://ghcr.io/pauloo27/helm-charts/sample-java-api:v0.1.1
+      namespace: dev
+      image: ghcr.io/pauloo27/sample-java-api:latest
+      values_file: ./helm/values.dev.yml
+    secrets:
+      kubeconfig: ${{ secrets.KUBECONFIG }}
+      openvpn_config: ${{ secrets.OPENVPN_CONFIG }}
+
