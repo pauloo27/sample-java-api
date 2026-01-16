@@ -1,0 +1,27 @@
+# HTTP port for the application
+http_port: 8000
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/pauloo27/sample-java-api
+  pullPolicy: IfNotPresent
+  # Tag will be set on GHA!
+
+service:
+  type: ClusterIP
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+livenessProbe:
+  httpGet:
+    path: /health
+readinessProbe:
+  httpGet:
+    path: /health

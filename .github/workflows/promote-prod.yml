@@ -1,0 +1,41 @@
+name: Promote to Prod
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'Image tag to deploy (commit SHA, defaults to latest)'
+        required: false
+        type: string
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.tag.outputs.image_tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        if: ${{ !inputs.image_tag }}
+
+      - name: Determine tag
+        id: tag
+        run: |
+          if [ -n "${{ inputs.image_tag }}" ]; then
+            echo "image_tag=${{ inputs.image_tag }}" >> $GITHUB_OUTPUT
+          else
+            echo "image_tag=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+          fi
+
+  deploy:
+    needs: prepare
+    uses: pauloo27/deployment-workflows/.github/workflows/helm-install.yml@main
+    with:
+      release_name: sample-java-api
+      chart: oci://ghcr.io/pauloo27/helm-charts/sample-java-api:v0.1.1
+      namespace: prod
+      image_tag: ${{ needs.prepare.outputs.image_tag }}
+      values_file: ./helm/values.prod.yml
+    secrets:
+      kubeconfig: ${{ secrets.KUBECONFIG }}
+      openvpn_config: ${{ secrets.OPENVPN_CONFIG }}
