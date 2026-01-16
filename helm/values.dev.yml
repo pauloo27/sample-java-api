@@ -6,7 +6,7 @@ replicaCount: 1
 image:
   repository: ghcr.io/pauloo27/sample-java-api
   pullPolicy: IfNotPresent
-  tag: "latest"
+  # Tag will be set on GHA!
 
 service:
   type: ClusterIP
