@@ -39,3 +39,17 @@ jobs:
       kubeconfig: ${{ secrets.KUBECONFIG }}
       openvpn_config: ${{ secrets.OPENVPN_CONFIG }}
 
+  summary:
+    needs: [prepare, deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate summary
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << EOF
+          ## Deployed to Dev
+
+          **Image Tag:** \`${{ needs.prepare.outputs.short_sha }}\`
+
+          Ready to promote to production? Use this tag in the [Promote to Prod workflow](https://github.com/pauloo27/sample-java-api/actions/workflows/promote-prod.yml).
+          EOF
+
