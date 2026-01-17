@@ -1,5 +1,5 @@
 # HTTP port for the application
-http_port: 8000
+httpPort: 8000
 
 replicaCount: 1
 

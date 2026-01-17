@@ -31,7 +31,7 @@ jobs:
     uses: pauloo27/deployment-workflows/.github/workflows/helm-install.yml@main
     with:
       release_name: sample-java-api
-      chart: oci://ghcr.io/pauloo27/helm-charts/sample-java-api:v0.1.1
+      chart: oci://ghcr.io/pauloo27/helm-charts/sample-java-api:v1.0.0
       namespace: dev
       image_tag: ${{ needs.prepare.outputs.short_sha }}
       values_file: ./helm/values.dev.yml
